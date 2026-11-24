@@ -547,9 +547,43 @@ font-size:12.5px;cursor:pointer}
 .mod-ov-hdr h3{font-family:Arial,sans-serif;font-size:22px;color:var(--violeta)}
 .mod-ov-hook{font-family:Arial,sans-serif;font-size:14px;color:var(--viola);margin-top:6px;font-weight:700}
 .mod-ov-intro{font-family:Arial,sans-serif;font-size:13px;color:#777;line-height:1.6;margin-top:8px}
+
+/* ── V10: banner de bienvenida ── */
+#banner-bienvenida{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;
+background:linear-gradient(rgba(74,44,74,.72),rgba(74,44,74,.72)),var(--bb-bg,none) center/cover no-repeat,var(--violeta);color:#fff;transition:opacity .5s,transform .6s}
+#banner-bienvenida.salir{opacity:0;transform:translateY(-100%);pointer-events:none}
+.bb-in{max-width:760px;width:100%}
+.bb-fotos{display:flex;justify-content:center;gap:clamp(8px,3vw,28px);margin-bottom:26px}
+.bb-fotos img{width:clamp(88px,26vw,200px);height:clamp(88px,26vw,200px);border-radius:50%;object-fit:cover;border:4px solid rgba(255,255,255,.85);box-shadow:0 6px 22px rgba(0,0,0,.35)}
+#banner-bienvenida h2{font-weight:400;font-size:clamp(22px,4.5vw,36px);line-height:1.3;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+.bb-flecha{margin-top:26px;width:56px;height:56px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,.15);color:#fff;font-size:28px;cursor:pointer;animation:bbrebote 1.6s infinite}
+.bb-flecha:hover{background:#fff;color:var(--violeta)}
+@keyframes bbrebote{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+/* V10: fotos del hero completas (sin recortar) */
+.hero2{height:auto;background:var(--crema)}
+.hero2-imgs{height:420px;background:var(--gris)}
+.hero2-imgs>div{background:#f0e8f5;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero2-imgs img{object-fit:contain}
+.hero2-over{position:static;background:linear-gradient(135deg,var(--violeta),var(--viola));padding:22px 16px 26px}
+@media(max-width:600px){.hero2{height:auto}.hero2-imgs{height:300px}}
+/* V10: módulos Talleres / Eventos / Flower Bar */
+.ev-img{position:relative;height:auto;display:block;background:var(--gris)}
+.ev-slides{position:relative;height:260px;overflow:hidden}
+.ev-slides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.ev-slides img.on{opacity:1}
+.ev-arr{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.9);color:var(--violeta);font-size:20px;cursor:pointer}
+.ev-arr.l{left:8px}.ev-arr.r{right:8px}
 </style>
 </head>
 <body>
+<!-- V10: banner de bienvenida (se quita con la flecha) -->
+<div id="banner-bienvenida">
+<div class="bb-in">
+<div class="bb-fotos" id="bb-fotos"></div>
+<h2>Bienvenid@ a Maia Florería, selecciona Sucursal.</h2>
+<button class="bb-flecha" onclick="cerrarBanner()" aria-label="Continuar">&#8595;</button>
+</div>
+</div>
 <!-- ══ PANTALLA BIENVENIDA ══════════════════════════════════ -->
 <div id="pantalla-bienvenida">
 <!-- CAMBIO: Logo actualizado -->
@@ -663,11 +697,11 @@ transition:.2s;box-shadow:0 4px 14px rgba(200,80,122,.4)">
 <div class="home-sec-hdr"><h3>Preguntas frecuentes</h3><p>Compra, envío y personalización</p></div>
 <div class="faq-wrap">
 <div class="faq-item" id="faq-0">
-<div class="faq-q" onclick="toggleFaq(0)"><span>Ramo personalizado: cómo solicitarlo</span><span class="faq-arrow">⌄</span></div>
+<div class="faq-q" onclick="toggleFaq(0)"><span>💐 🌹 Ramo personalizado: cómo solicitarlo</span><span class="faq-arrow">⌄</span></div>
 <div class="faq-a">Ingresa al siguiente formulario y danos información de cómo lo imaginas. Lo encuentras en la sección "Arreglos personalizados" más arriba, en el botón "✨ Diseña tu ramo a la medida".</div>
 </div>
 <div class="faq-item" id="faq-1">
-<div class="faq-q" onclick="toggleFaq(1)"><span>¿Puedo personalizar con globos, peluches y chocolates?</span><span class="faq-arrow">⌄</span></div>
+<div class="faq-q" onclick="toggleFaq(1)"><span>¿Puedo personalizar con globos, peluches y chocolates? 🎈 🧸 🍫</span><span class="faq-arrow">⌄</span></div>
 <div class="faq-a">Sí. Puedes añadir globos, peluches y chocolates desde la página del producto o en Extras. También por WhatsApp y Más opciones de regalo. Sujeto a disponibilidad con costo adicional.</div>
 </div>
 <button class="btn-aviso-faq" onclick="abrirAviso();return false;">📄 Ver Aviso de Privacidad</button>
@@ -1956,13 +1990,49 @@ personalizados:{ titulo:'Arreglos personalizados', alias:['Arreglos Personalizad
   hook:'Tú imaginas el detalle, nuestros floristas lo transforman en arte.',
   intro:'¿Tienes en mente una paleta de colores específica, su flor favorita o un mensaje único? Creamos diseños a la medida adaptados a tu presupuesto y ocasión para que tu regalo sea verdaderamente irrepetible.' },
 regalos:      { titulo:'Más regalos', alias:['Regalos'],
-  hook:'', intro:'' }
+  hook:'', intro:'' },
+entrega:      { titulo:'De Entrega Inmediata', alias:['De Entrega Inmediata','Entrega Inmediata'],
+  hook:'Arreglos listos para recibir hoy.', intro:'Productos disponibles para entrega inmediata. Compra antes de la 1 PM y recibe hoy (revisa cobertura). Retiro hasta las 7 PM.' }
 };
 // Imágenes de las 2 fotos del encabezado (sección 1)
 var HERO_IMG_1 = 'https://i.postimg.cc/7Z7HqfBP/FOTO-1-PRIMERA-SECCION.jpg';
-var HERO_IMG_2 = 'https://i.postimg.cc/yxS50Sg2/FOTO-2-PRIMERA-SECCION.jpg';
+var HERO_IMG_2 = 'https://i.postimg.cc/DZRcTdhz/FOTO-2-PRIMERA-SECCION.jpg';
 // Fotos del carrusel de Eventos / Talleres / Flower Bar (pega aquí tus links; vacío = fondo decorativo)
-var EVENTOS_IMGS = { eventos:'', talleres:'', flowerbar:'' };
+var EVENTOS_IMGS = {
+talleres:['https://i.postimg.cc/QdYtMj4Y/TALLER-1.png','https://i.postimg.cc/rF8FCD7Q/TALLER-2.png'],
+eventos:['https://i.postimg.cc/ry9qm8zz/EVENTOS.png'],
+flowerbar:['https://i.postimg.cc/zBC8TNjt/FLOWER-BAR.png']
+};
+// Banner de bienvenida: 3 fotos redondas + imagen de fondo (BANNER_IMG = '' para quitar el fondo)
+var BANNER_FOTOS = ['https://i.postimg.cc/CxQt12jK/ARREGLO-1-BANNER.jpg','https://i.postimg.cc/HxQP6sFy/ARREGLO-2-BANNER.jpg','https://i.postimg.cc/h415xvLq/ARREGLO-3-BANNER.jpg'];
+var BANNER_IMG = 'https://i.postimg.cc/yxsXjbQL/BANNER.png';
+// Fotos del carrusel "Arreglos por Ocasión"
+var FOTOS_OCASION = {
+cumpleanos:'https://i.postimg.cc/Kj8rtGbG/Flores-para-Cumpleanos.jpg',
+aniversario:'https://i.postimg.cc/Rh26q4VR/Flores-para-Aniversario.jpg',
+condolencias:'https://i.postimg.cc/FRB1nNcv/Flores-para-Condolencias.jpg',
+favoritas:'https://i.postimg.cc/brg0B94c/Flores-Favoritas-del-Mes.jpg',
+premium:'https://i.postimg.cc/C13nxw1F/Orquideas-y-Ramos-Premium.jpg',
+celebraciones:'https://i.postimg.cc/Gh1s03V8/Celebraciones.jpg',
+regalos:'https://i.postimg.cc/cHn6jPcj/Mas-regalos.jpg'
+};
+(function(){
+try {
+document.getElementById('bb-fotos').innerHTML = BANNER_FOTOS.map(function(u){ return '<img src="'+u+'" alt="">'; }).join('');
+if (BANNER_IMG) document.getElementById('banner-bienvenida').style.setProperty('--bb-bg', 'url("'+BANNER_IMG+'")');
+} catch(e) {}
+})();
+function cerrarBanner() {
+var b = document.getElementById('banner-bienvenida');
+b.classList.add('salir');
+setTimeout(function(){ b.style.display = 'none'; }, 650);
+}
+function evMover(id, dir) {
+var imgs = document.querySelectorAll('#' + id + ' img');
+var cur = 0;
+imgs.forEach(function(im, i){ if (im.classList.contains('on')) cur = i; im.classList.remove('on'); });
+imgs[(cur + dir + imgs.length) % imgs.length].classList.add('on');
+}
 
 function modActivo(p) {
 // Exige SI en la columna ACTIVO. Si el servidor aún no envía el campo (Codigo.gs viejo), no bloquea.
@@ -2034,27 +2104,25 @@ var h = '';
 // ── 1ª sección: cinta + 2 fotos + botones ──
 h += '<div class="cinta-envio">Compra antes de la 1 PM y recibe hoy <span>(Revisa cobertura)</span> &nbsp;·&nbsp; Retiro hasta las 7 PM</div>';
 h += '<div class="hero2" id="sec-hero2">';
-h += '<div class="hero2-imgs"><img src="' + HERO_IMG_1 + '" alt="Flores para cada ocasión"><img src="' + HERO_IMG_2 + '" alt="Arreglos florales MAIA"></div>';
+h += '<div class="hero2-imgs"><div><img src="' + HERO_IMG_1 + '" alt="Flores para cada ocasión"></div><div><img src="' + HERO_IMG_2 + '" alt="Arreglos florales MAIA"></div></div>';
 h += '<div class="hero2-over"><h2>Flores para Cada Ocasión</h2><p>Elige el arreglo perfecto para cumpleaños, aniversarios, condolencias y más.</p>';
 h += '<div class="hero2-btns">';
 h += '<button onclick="irASeccion(\'sec-personalizados\')">Arreglos personalizados</button>';
 h += '<button onclick="irASeccion(\'sec-eventos\')">Talleres y Flower Bar</button>';
-h += '<button onclick="irASeccion(\'sec-ocasiones\')">De Entrega Inmediata</button>';
+h += '<button onclick="abrirModulo(\'entrega\')">De Entrega Inmediata</button>';
 h += '</div></div></div>';
 // ── 2ª sección: carrusel "Arreglos por Ocasión" ──
 var tarjetas = [
 { key:'cumpleanos', sec:'' }, { key:'aniversario', sec:'' }, { key:'condolencias', sec:'' },
-{ key:'favoritas', sec:'' }, { key:'premium', sec:'' }, { key:'celebraciones', sec:'sec-celebraciones' }
+{ key:'favoritas', sec:'' }, { key:'premium', sec:'' }, { key:'celebraciones', sec:'' }, { key:'regalos', sec:'' }
 ];
 var logo = 'https://raw.githubusercontent.com/MAIA-Boutique-Floral/maia-assets/refs/heads/main/MAIA-BRAND.jpg';
 var inner = tarjetas.map(function(t) {
 var m = MODULOS[t.key];
-var prods = prodsDeModulo(t.key);
-var conImg = prods.filter(function(p){ return p.imagen; })[0];
-var img = conImg ? conImg.imagen : logo;
+var img = FOTOS_OCASION[t.key] || logo;
 return '<div class="oc-card" onclick="clickTarjetaOcasion(\'' + t.key + '\',\'' + t.sec + '\')">' +
 '<div class="oc-img"><img src="' + img + '" alt="' + m.titulo + '" loading="lazy" onerror="this.src=\'' + logo + '\'"></div>' +
-'<h4>' + m.titulo + '</h4><p>' + m.hook + '</p></div>';
+'<h4>' + m.titulo + '</h4></div>';
 }).join('');
 h += '<div class="home-sec" id="sec-ocasiones"><div class="home-sec-hdr"><h3>Arreglos por Ocasión</h3></div>' + carruselWrap('car-ocasiones', inner) + '</div>';
 // ── 4ª a 8ª sección ──
@@ -2069,26 +2137,23 @@ h += '<div class="home-personal-form" id="home-personal-form"></div>';
 h += filaProductos('personalizados');
 if (prodsDeModulo('personalizados').length > 6) h += '<div class="home-ver-todos"><button onclick="abrirModulo(\'personalizados\')">Ver todos (' + prodsDeModulo('personalizados').length + ') →</button></div>';
 h += '</div>';
-// ── 9ª sección: Eventos, Talleres y Flower Bar (carrusel de 3) ──
+// ── 9ª sección: Talleres, Eventos y Flower Bar (carrusel de 3 módulos, cotiza por WhatsApp) ──
 var ev = [
-{ k:'eventos',   t:'Eventos',      e:'🌸', d:'Diseño floral para eventos sociales y corporativos: ambientaciones que transforman cualquier espacio.' },
-{ k:'talleres',  t:'Talleres',     e:'✂️', d:'Talleres creativos llenos de inspiración para aprender a diseñar tus propios arreglos.' },
-{ k:'flowerbar', t:'Flower Bar',   e:'💐', d:'Nuestro exclusivo Flower Bar para que tus invitados armen su propio ramo.' }
+{ k:'talleres',  t:'Talleres',   d:'Talleres creativos llenos de inspiración para aprender a diseñar tus propios arreglos.' },
+{ k:'eventos',   t:'Eventos',    d:'Diseño floral para eventos sociales y corporativos: ambientaciones que transforman cualquier espacio.' },
+{ k:'flowerbar', t:'Flower Bar', d:'Nuestro exclusivo Flower Bar para que tus invitados armen su propio ramo.' }
 ];
 var evInner = ev.map(function(x) {
-var bg = EVENTOS_IMGS[x.k] ? ' style="background-image:url(\'' + EVENTOS_IMGS[x.k] + '\')"' : '';
-return '<div class="ev-card"><div class="ev-img"' + bg + '>' + (EVENTOS_IMGS[x.k] ? '' : '<span>' + x.e + '</span>') + '</div>' +
+var fotos = EVENTOS_IMGS[x.k] || [];
+var sid = 'evs-' + x.k;
+var slides = fotos.map(function(u, i){ return '<img class="' + (i === 0 ? 'on' : '') + '" src="' + u + '" alt="' + x.t + '" loading="lazy">'; }).join('');
+var flechas = fotos.length > 1 ? '<button class="ev-arr l" onclick="evMover(\'' + sid + '\',-1)" aria-label="Anterior">‹</button><button class="ev-arr r" onclick="evMover(\'' + sid + '\',1)" aria-label="Siguiente">›</button>' : '';
+return '<div class="ev-card"><div class="ev-img"><div class="ev-slides" id="' + sid + '">' + slides + '</div>' + flechas + '</div>' +
 '<h4>' + x.t + '</h4><p>' + x.d + '</p><button onclick="abrirWA()">Cotizar por WhatsApp</button></div>';
 }).join('');
-h += '<div class="home-sec" id="sec-eventos"><div class="home-sec-hdr"><h3>Eventos, Talleres y Flower Bar</h3><p>Experiencias florales interactivas y ambientaciones que transforman cualquier espacio.</p></div>' + carruselWrap('car-eventos', evInner) + '</div>';
+h += '<div class="home-sec" id="sec-eventos"><div class="home-sec-hdr"><h3>Talleres, Eventos y Flower Bar</h3><p>Experiencias florales interactivas y ambientaciones que transforman cualquier espacio.</p></div>' + carruselWrap('car-eventos', evInner) + '</div>';
 // ── 10ª sección: Más regalos ──
 h += seccionModulo('regalos', 'sec-regalos');
-// ── 11ª sección: Blog y consejos ──
-h += '<div class="home-sec" id="sec-blog"><div class="home-sec-hdr"><h3>Blog y consejos</h3><p>Información de Eventos, Talleres y Flower Bar</p></div><div class="blog-grid">';
-h += '<div class="blog-card"><h4>Eventos</h4><p>Lleva la magia de Maia Florería a tus celebraciones. Ofrecemos diseño floral para eventos sociales y corporativos. Cuéntanos la fecha, el lugar y el estilo que imaginas y te preparamos una propuesta.</p></div>';
-h += '<div class="blog-card"><h4>Talleres</h4><p>Talleres creativos llenos de inspiración. Una experiencia ideal para regalar, convivir en grupo o aprender el arte del diseño floral con nuestros floristas.</p></div>';
-h += '<div class="blog-card"><h4>Flower Bar</h4><p>Nuestro exclusivo Flower Bar permite que tus invitados armen su propio ramo. Perfecto para despedidas, cumpleaños y reuniones. Escríbenos por WhatsApp para conocer disponibilidad.</p></div>';
-h += '</div></div>';
 document.getElementById('secciones-home').innerHTML = h;
 }
 function togglePersonalHome() {
