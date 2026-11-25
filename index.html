@@ -573,6 +573,32 @@ background:linear-gradient(rgba(74,44,74,.72),rgba(74,44,74,.72)),var(--bb-bg,no
 .ev-slides img.on{opacity:1}
 .ev-arr{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.9);color:var(--violeta);font-size:20px;cursor:pointer}
 .ev-arr.l{left:8px}.ev-arr.r{right:8px}
+
+/* ── V11 ── */
+.cinta-envio{overflow:hidden;white-space:nowrap;font-size:15px;padding:11px 0;text-align:left}
+.marq{display:inline-block;white-space:nowrap;animation:marq 38s linear infinite;will-change:transform}
+.cinta-envio:hover .marq,.cinta-mor:hover .marq{animation-play-state:paused}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marq span.it{display:inline-block;padding:0 40px}
+.cinta-mor{background:linear-gradient(135deg,var(--violeta),var(--viola));color:#fff;overflow:hidden;white-space:nowrap;padding:11px 0;margin:2px 0 14px;border-radius:10px;font-family:Arial,sans-serif;font-size:15px;letter-spacing:.3px}
+.cinta-mor .marq{animation-duration:42s}
+.hero2{background:var(--gris);height:auto;padding:26px 16px 30px}
+.hero2-imgs{display:flex;justify-content:center;align-items:flex-end;gap:clamp(10px,2vw,22px);height:auto;background:none}
+.hero2-imgs>div{background:none;display:block;overflow:visible;flex:0 1 auto;max-width:47%}
+.hero2-imgs img{display:block;width:auto;height:auto;max-width:100%;max-height:440px;object-fit:contain;border-radius:14px;box-shadow:0 8px 26px rgba(74,44,74,.22)}
+.hero2-over{position:static;background:none;padding:22px 0 0;color:var(--violeta)}
+.hero2-over h2{color:var(--violeta);text-shadow:none;font-weight:700}
+.hero2-over p{color:var(--violeta);text-shadow:none;font-weight:600}
+.hero2-btns{width:min(340px,100%)}
+.hero2-btns button{border:1.5px solid var(--rosa);box-shadow:0 2px 8px rgba(74,44,74,.12)}
+@media(max-width:600px){.hero2-imgs img{max-height:300px}}
+.home-sec-row{scrollbar-width:none}
+.home-sec-row::-webkit-scrollbar{display:none}
+.mc-nav{background:var(--violeta);color:#fff;box-shadow:0 3px 12px rgba(74,44,74,.45);opacity:.92}
+.mc-nav:hover{background:var(--viola)}
+.mc-wrap .mc-prev{left:-4px}.mc-wrap .mc-next{right:-4px}
+.mc-nav{width:32px;height:32px;font-size:20px}
+.ev-slides{cursor:zoom-in}
 </style>
 </head>
 <body>
@@ -1977,7 +2003,7 @@ premium:      { titulo:'Orquídeas y Ramos Premium', alias:['Orquídeas y Ramos 
 celebraciones:{ titulo:'Celebraciones', alias:['Celebraciones'],
   hook:'Cada logro, reunión o sorpresa merece un detalle floral a la altura.',
   intro:'Graduaciones, ascensos, inauguraciones o simplemente decir \'felicidades\'. Encuentra arreglos versátiles, alegres y llenos de estilo para brindar por los grandes momentos de la vida.' },
-sets:         { titulo:'Nuevos Sets de Flores y Globos', alias:['Nuevos Sets de Flores y Globos','Sets de Flores y Globos'],
+sets:         { titulo:'Sets de Flores y Globos', alias:['Nuevos Sets de Flores y Globos','Sets de Flores y Globos'],
   hook:'La combinación perfecta entre elegancia floral y diversión festiva.',
   intro:'Multiplica la emoción de tu regalo con nuestros sets. Integramos arreglos florales frescos con globos metálicos personalizados y complementos listos para robar miradas y protagonizar las mejores fotos.' },
 rosas:        { titulo:'Ramos de Rosas · 50, 100 y 500 Rosas', alias:['Ramos de Rosas'],
@@ -1996,7 +2022,7 @@ entrega:      { titulo:'De Entrega Inmediata', alias:['De Entrega Inmediata','En
 };
 // Imágenes de las 2 fotos del encabezado (sección 1)
 var HERO_IMG_1 = 'https://i.postimg.cc/7Z7HqfBP/FOTO-1-PRIMERA-SECCION.jpg';
-var HERO_IMG_2 = 'https://i.postimg.cc/DZRcTdhz/FOTO-2-PRIMERA-SECCION.jpg';
+var HERO_IMG_2 = 'https://i.postimg.cc/MpH7TRj6/FOTO-2-PRIMERA-SECCION.jpg';
 // Fotos del carrusel de Eventos / Talleres / Flower Bar (pega aquí tus links; vacío = fondo decorativo)
 var EVENTOS_IMGS = {
 talleres:['https://i.postimg.cc/QdYtMj4Y/TALLER-1.png','https://i.postimg.cc/rF8FCD7Q/TALLER-2.png'],
@@ -2051,12 +2077,19 @@ function filaProductos(key) {
 var prods = prodsDeModulo(key).slice(0, 6);
 if (!prods.length) return '<div class="home-sec-empty">Próximamente</div>';
 var nom = MODULOS[key].titulo;
-return '<div class="home-sec-row">' + prods.map(function(p){ return buildProdCard(p, nom); }).join('') + '</div>';
+var rid = 'row-' + key;
+return '<div class="mc-wrap"><button class="mc-nav mc-prev" onclick="carruselMover(\'' + rid + '\',-1)" aria-label="Anterior">‹</button>' +
+'<div class="home-sec-row" id="' + rid + '">' + prods.map(function(p){ return buildProdCard(p, nom); }).join('') + '</div>' +
+'<button class="mc-nav mc-next" onclick="carruselMover(\'' + rid + '\',1)" aria-label="Siguiente">›</button></div>';
 }
-function seccionModulo(key, idSec, tituloOverride) {
+function cintaMov(txt) {
+var it = '<span class="it">' + txt + '</span>';
+return '<div class="cinta-mor"><div class="marq">' + new Array(9).join(it) + '</div></div>';
+}
+function seccionModulo(key, idSec, tituloOverride, hookEnCinta) {
 var m = MODULOS[key];
 var total = prodsDeModulo(key).length;
-var h = '<div class="home-sec" id="' + idSec + '"><div class="home-sec-hdr"><h3>' + (tituloOverride || m.titulo) + '</h3>' + (m.hook ? '<p>' + m.hook + '</p>' : '') + '</div>';
+var h = '<div class="home-sec" id="' + idSec + '"><div class="home-sec-hdr"><h3>' + (tituloOverride || m.titulo) + '</h3>' + (m.hook && !hookEnCinta ? '<p>' + m.hook + '</p>' : '') + '</div>' + (m.hook && hookEnCinta ? cintaMov(m.hook) : '');
 h += filaProductos(key);
 if (total > 6) h += '<div class="home-ver-todos"><button onclick="abrirModulo(\'' + key + '\')">Ver todos (' + total + ') →</button></div>';
 return h + '</div>';
@@ -2102,13 +2135,14 @@ else abrirModulo(key);
 function construirSeccionesHome() {
 var h = '';
 // ── 1ª sección: cinta + 2 fotos + botones ──
-h += '<div class="cinta-envio">Compra antes de la 1 PM y recibe hoy <span>(Revisa cobertura)</span> &nbsp;·&nbsp; Retiro hasta las 7 PM</div>';
+var txtCinta = '<span class="it">Compra antes de la 1 PM y recibe hoy <span>(Revisa cobertura)</span> &nbsp;·&nbsp; Retiro hasta las 7 PM</span>';
+h += '<div class="cinta-envio"><div class="marq">' + new Array(9).join(txtCinta) + '</div></div>';
 h += '<div class="hero2" id="sec-hero2">';
 h += '<div class="hero2-imgs"><div><img src="' + HERO_IMG_1 + '" alt="Flores para cada ocasión"></div><div><img src="' + HERO_IMG_2 + '" alt="Arreglos florales MAIA"></div></div>';
 h += '<div class="hero2-over"><h2>Flores para Cada Ocasión</h2><p>Elige el arreglo perfecto para cumpleaños, aniversarios, condolencias y más.</p>';
 h += '<div class="hero2-btns">';
 h += '<button onclick="irASeccion(\'sec-personalizados\')">Arreglos personalizados</button>';
-h += '<button onclick="irASeccion(\'sec-eventos\')">Talleres y Flower Bar</button>';
+h += '<button onclick="irASeccion(\'sec-eventos\')">Talleres, Eventos y Flower Bar</button>';
 h += '<button onclick="abrirModulo(\'entrega\')">De Entrega Inmediata</button>';
 h += '</div></div></div>';
 // ── 2ª sección: carrusel "Arreglos por Ocasión" ──
@@ -2126,12 +2160,12 @@ return '<div class="oc-card" onclick="clickTarjetaOcasion(\'' + t.key + '\',\'' 
 }).join('');
 h += '<div class="home-sec" id="sec-ocasiones"><div class="home-sec-hdr"><h3>Arreglos por Ocasión</h3></div>' + carruselWrap('car-ocasiones', inner) + '</div>';
 // ── 4ª a 8ª sección ──
-h += seccionModulo('celebraciones', 'sec-celebraciones');
+h += seccionModulo('celebraciones', 'sec-celebraciones', '', true);
 h += seccionModulo('sets', 'sec-sets');
 h += seccionModulo('rosas', 'sec-rosas');
 h += seccionModulo('hombre', 'sec-hombre');
 // 8ª: Arreglos personalizados (conserva el formulario "Diseña tu ramo a la medida")
-h += '<div class="home-sec" id="sec-personalizados"><div class="home-sec-hdr"><h3>Arreglos personalizados</h3><p>' + MODULOS.personalizados.hook + '</p></div>';
+h += '<div class="home-sec" id="sec-personalizados"><div class="home-sec-hdr"><h3>Arreglos personalizados</h3></div>' + cintaMov(MODULOS.personalizados.hook);
 h += '<button class="home-personal-cta" onclick="togglePersonalHome()">✨ Diseña tu ramo a la medida</button>';
 h += '<div class="home-personal-form" id="home-personal-form"></div>';
 h += filaProductos('personalizados');
@@ -2148,7 +2182,7 @@ var fotos = EVENTOS_IMGS[x.k] || [];
 var sid = 'evs-' + x.k;
 var slides = fotos.map(function(u, i){ return '<img class="' + (i === 0 ? 'on' : '') + '" src="' + u + '" alt="' + x.t + '" loading="lazy">'; }).join('');
 var flechas = fotos.length > 1 ? '<button class="ev-arr l" onclick="evMover(\'' + sid + '\',-1)" aria-label="Anterior">‹</button><button class="ev-arr r" onclick="evMover(\'' + sid + '\',1)" aria-label="Siguiente">›</button>' : '';
-return '<div class="ev-card"><div class="ev-img"><div class="ev-slides" id="' + sid + '">' + slides + '</div>' + flechas + '</div>' +
+return '<div class="ev-card"><div class="ev-img"><div class="ev-slides" id="' + sid + '" onclick="abrirGaleria(EVENTOS_IMGS.' + x.k + ')" title="Ampliar foto">' + slides + '</div>' + flechas + '</div>' +
 '<h4>' + x.t + '</h4><p>' + x.d + '</p><button onclick="abrirWA()">Cotizar por WhatsApp</button></div>';
 }).join('');
 h += '<div class="home-sec" id="sec-eventos"><div class="home-sec-hdr"><h3>Talleres, Eventos y Flower Bar</h3><p>Experiencias florales interactivas y ambientaciones que transforman cualquier espacio.</p></div>' + carruselWrap('car-eventos', evInner) + '</div>';
